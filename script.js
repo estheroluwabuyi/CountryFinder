@@ -51,12 +51,6 @@ ${
   countryInfo.insertAdjacentHTML("afterbegin", html);
 }
 
-const renderErr = function(msg){
-  countryInfo.insertAdjacentText('beforeend', msg);
-  
-  // countriesContainer.style.opacity = 1;
-  }
-
 
 // API
 const getCountryData = function (country) {
@@ -73,23 +67,7 @@ const getCountryData = function (country) {
 
 };
 
-/*
-const getCountryData = function (country) {
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then(function (response) {
-      if (!response.ok) throw new Error('Country not found');
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data);
-      renderCountry(data);
-    })
-    .catch(function (error) {
-      countryInfo.innerHTML = 'Unable to fetch country data. Please try again.';
-      console.error(error);
-    });
-};
-*/
+
 
 function inputLoad() {
   input.addEventListener('focus', function () {
@@ -100,9 +78,8 @@ function inputLoad() {
   })
 };
 
-// Button click event listener
-const countryGenerator = function () {
 
+// Button click event listener
   btn.addEventListener("click", function (e) {
     e.preventDefault();
     const inputValue = input.value.trim().toLowerCase();
@@ -127,8 +104,3 @@ const countryGenerator = function () {
     
   });
 
-}
-
-
-
-countryGenerator()
