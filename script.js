@@ -4,7 +4,7 @@
 const countryContainer = document.querySelector(".country");
 const btn = document.querySelector(".country-btn");
 const input = document.querySelector("#input");
-const countryInfo = document.querySelector('.country-info')
+const countryInfo = document.querySelector(".country-info");
 
 //RENDER CODE
 function renderCountry(data) {
@@ -32,7 +32,6 @@ ${
 }
 </div>
 
-
   <div class="area"><span>Area:</span>${(+data[0].area * 0.386102).toFixed(
     2
   )} square miles</div>
@@ -51,56 +50,63 @@ ${
   countryInfo.insertAdjacentHTML("afterbegin", html);
 }
 
+//Error Message Function
+function errMessage() {
+  alert("Country Not Found");
+}
 
-// API
-const getCountryData = function (country) {
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then(function (response) {
-      //   console.log(response);
-      if (!response.ok) throw new Error('Country not found');
-      return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-      renderCountry(data);
-    })
-
-};
-
-
-
-function inputLoad() {
-  input.addEventListener('focus', function () {
-    if (countryInfo) {
-     countryInfo.innerHTML = '';
-      
+// Function to get country data and render it
+const getCountryData = async function (country) {
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+    const data = await res.json();
+    if (!res.ok) {
+      errMessage();
+      throw new Error(`Problem getting country data from ${country}`);
     }
-  })
+
+    renderCountry(data);
+  } catch (err) {
+    console.error(`Error fetching country data for ${country}:`, err);
+  }
 };
 
+// Function to hide country info on input focus
+const hideCountryInfo = () => {
+  input.addEventListener("focus", () => {
+    countryInfo.innerHTML = "";
+  });
+};
+hideCountryInfo();
+
+function handleCountrySearch() {
+  const inputValue = input.value.trim().toLowerCase();
+
+  if (!inputValue) {
+    countryInfo.innerHTML = "";
+    return;
+  }
+
+  countryInfo.classList.remove("hide");
+  getCountryData(inputValue);
+  input.value = "";
+}
 
 // Button click event listener
-  btn.addEventListener("click", function (e) {
-    e.preventDefault();
-    const inputValue = input.value.trim().toLowerCase();
+btn.addEventListener("click", function (e) {
+  e.preventDefault();
+  handleCountrySearch();
+});
 
-    console.log(inputValue);
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    console.log(e);
+    handleCountrySearch();
+  }
+});
 
-
-    if (inputValue) {
-      countryInfo.classList.remove('hide');
-
-      getCountryData(inputValue);
-
-      input.value = '';
-
-      inputLoad()
-
-    }
-    if (!inputValue) {
-     countryInfo.innerHTML = '';
-    }
-
-    
-  });
-
+/*Next
+1. Add previously inputted values at the bottom, so users can click on previous countries to get same data (create new element below btn, use append or prepend to add created element).
+2. LocalStorage API to save created element
+3. Create a new button to clear previously created element
+*/
