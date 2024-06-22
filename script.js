@@ -105,7 +105,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-/*Next
+/**Next
 1. Add previously inputted values at the bottom, so users can click on previous countries to get same data (create new element below btn, use append or prepend to add created element).
 2. LocalStorage API to save created element
 3. Create a new button to clear previously created element
