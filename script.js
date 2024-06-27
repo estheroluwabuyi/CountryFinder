@@ -47,6 +47,7 @@ ${
 
 `;
 
+countryInfo.innerHTML = "";
   countryInfo.insertAdjacentHTML("afterbegin", html);
 }
 
@@ -72,12 +73,14 @@ const getCountryData = async function (country) {
 };
 
 // Function to hide country info on input focus
-const hideCountryInfo = () => {
-  input.addEventListener("focus", () => {
-    countryInfo.innerHTML = "";
-  });
-};
-hideCountryInfo();
+// const hideCountryInfo = () => {
+//     countryInfo.innerHTML = "";
+
+//   input.addEventListener("focus", () => {
+//     countryInfo.innerHTML = "";
+//   });
+// };
+// hideCountryInfo();
 
 function handleCountrySearch() {
   const inputValue = input.value.trim().toLowerCase();
